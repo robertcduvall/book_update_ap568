@@ -1,33 +1,254 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+.crossword-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: 'Arial', sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+.crossword-cell-container {
+  position: relative;
+  display: inline-flex;
 }
 
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+.cell-number {
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 10px; /* Smaller font size for the number */
+  padding: 2px; /* Small padding to move away from the edges */
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
+
+.timer {
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+
+.crossword-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bold;
+  font-family: 'Arial', sans-serif;
+}
+
+
+.clues-container {
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+}
+
+.clues-down, .clues-across {
+  margin: 0 10px;
+}
+
+.clue {
+  padding: 5px;
+  margin: 2px 0;
+  background-color: #f0f0f0;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
+
+.clue.active {
+  background-color: #d9d9ff; /* A light blue similar to the selection in the image */
+  font-weight: bold;
+}
+
+.crossword {
+  background-color: #ffffff;
+  border-collapse: collapse;
+  margin-top: 10px;
+  user-select: none;
+}
+
+.crossword-row {
+  display: flex;
+}
+
+.crossword-cell {
+  width: 35px; /* Adjust based on your preference */
+  height: 35px;
+  border: 1px solid #000;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 20px;
+  padding: 0;
+  margin: 0;
+  outline: none;
+  position: relative;
+}
+
+.crossword-cell.inactive {
+  background-color: #000; /* Black for inactive cells */
+  pointer-events: none; /* Ignore mouse events */
+}
+
+.crossword-cell::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #000;
+  z-index: -1;
+}
+
+.crossword-cell.filled {
+  background-color: #a0a0ff; /* Light blue to indicate filled cells */
+}
+
+.crossword-cell:focus {
+  background-color: #bfcfff; /* Slightly different blue for the active cell */
+  z-index: 10;
+}
+
+.crossword-cell:focus::after {
+  content: none; /* Remove the black background when cell is focused */
+}
+
+/* Additional styles for the input that are disabled (blacked out) */
+.crossword-cell[disabled] {
+  background-color: #000;
+  border-color: #000;
+}
+
+/* Style for clues and across/down titles */
+.clues-title {
+  font-weight: bold;
+  margin-top: 20px;
+  margin-bottom: 5px;
+}
+
+.submit-button-container {
+  padding-top: 20px;
+
+
+
+}
+
+.submit-button {
+  background-color: #758ff5; /* Green background */
+  color: white; /* White text */
+  padding: 12px 24px; /* Top and bottom padding, Left and right padding */
+  font-size: 16px; /* Text size */
+  cursor: pointer; /* Cursor changes to pointer to indicate it's clickable */
+  border: none; /* No border */
+  border-radius: 5px; /* Rounded corners */
+  transition: background-color 0.3s, transform 0.2s; /* Smooth transition for background color and transform on hover */
+}
+
+.submit-button:hover {
+  background-color: #876dde; /* Darker shade of green on hover */
+  transform: translateY(-2px); /* Slight raise effect on hover */
+}
+
+.submit-button:active {
+  transform: translateY(1px); /* Pressed down effect when clicked */
+}
+
+.leaderboard-under-header {
+  background-color: #9b59b6;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.leaderboard-under-container {
+  width: 50%;
+  max-width: 600px; /* Adjust as necessary */
+  background: white;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+}
+
+.leaderboard-container {
+  width: 50%;
+  max-width: 600px; /* Adjust as necessary */
+  background: white;
+  margin: 0 auto;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  font-family: 'Arial', sans-serif;
+}
+
+.mega-container {
+  padding-top: 100px;
+  padding-bottom: 75px;
+}
+
+.leaderboard-header {
+  background-color: #9b59b6;
+  color: white;
+  text-align: center;
+  padding: 20px;
+}
+
+.leaderboard-header h2 {
+  margin: 0;
+}
+
+.leaderboard-header p {
+  margin: 5px 0 0;
+}
+
+.leaderboard-table {
+  display: grid;
+  grid-template-columns: 1fr 3fr 1fr;
+}
+
+.leaderboard-table-header, .leaderboard-table-row {
+  display: contents;
+}
+
+.leaderboard-rank, .leaderboard-player, .leaderboard-score {
+  padding: 10px;
+  color: #000;
+  border-bottom: 1px solid #eee;
+}
+
+.leaderboard-table-header {
+  background-color: #8e44ad;
+  color: white;
+}
+
+.leaderboard-even {
+  background-color: #f4f4f4; /* Example color for even rows */
+}
+
+.leaderboard-odd {
+  background-color: #ffffff; /* Example color for odd rows */
+}
+
+
+.leaderboard-id {
+  font-weight: bold;
+  margin-right: 5px;
+}
+
+.winner-background {
+  background-color: #f0f0f0; /* Light gray background, change as needed */
+  min-height: 100vh; /* Minimum height of 100% of the viewport height */
+  width: 100%; /* Full width */
+}
+
+.index-background {
+  background-color: #f0f0f0; /* Light gray background, change as needed */
+  min-height: 100vh; /* Minimum height of 100% of the viewport height */
+  width: 100%; /* Full width */
+}
+
+
+.highlighted-player {
+  font-weight: bold; /* Optional: make text bold for emphasis */
 }
